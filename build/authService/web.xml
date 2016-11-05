@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app version="2.4">
+
+    <display-name>YAWL Authentication Service</display-name>
+    <description>
+        This service handles the OAuth 2 authentication flow.
+        Copyright 2016 yawlfoundation.org. All rights reserved.
+        Author: Philipp R. Thomas
+        For more information about the YAWL SOFTWARE LICENCE refer to the 'downloads'
+        section at http://www.yawlfoundation.org/.
+    </description>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>org.yawlfoundation.yawl.oauth.config.ApplicationConfig</param-value>
+    </context-param>
+
+    <filter>
+      <filter-name>corsFilter</filter-name>
+      <filter-class>org.yawlfoundation.yawl.resourcing.config.ResourceServiceCorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+      <filter-name>corsFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+	<filter>
+	  <filter-name>springSecurityFilterChain</filter-name>
+	  <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+	  <filter-name>springSecurityFilterChain</filter-name>
+	  <url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value></param-value>
+        </init-param>
+		<init-param>
+			<param-name>throwExceptionIfNoHandlerFound</param-name>
+			<param-value>true</param-value>
+		</init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+</web-app>

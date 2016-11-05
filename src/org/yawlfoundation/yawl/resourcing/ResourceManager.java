@@ -852,6 +852,11 @@ public class ResourceManager extends InterfaceBWebsideController {
     }
 
 
+    public Participant getParticipantFromID(String pid) {
+        return _orgDataSet.getParticipant(pid);
+    }
+
+
     public Participant getParticipantFromUserID(String userID) {
         String pid = _cache.getParticipantIDFromUserID(userID);
         return _orgDataSet.getParticipant(pid);
@@ -999,7 +1004,7 @@ public class ResourceManager extends InterfaceBWebsideController {
             }
         } else {
 
-            // either start is user-initiated or there's no resource map (beta spec) 
+            // either start is user-initiated or there's no resource map (beta spec)
             wir.setResourceStatus(WorkItemRecord.statusResourceAllocated);
             QueueSet qSet = p.getWorkQueues();
             if (qSet == null) qSet = p.createQueueSet(_persisting);
@@ -1389,7 +1394,7 @@ public class ResourceManager extends InterfaceBWebsideController {
     //        it to log p as the starter). If p is not logged on, the service's handle
     //        has to be used, and thus the service will be logged as the starter. There is
     //        no way around this currently, but will be handled when the engine is
-    //        made completely agnostic to resources. 
+    //        made completely agnostic to resources.
     public boolean routePiledWorkItem(Participant p, WorkItemRecord wir) {
         return routeWorkItem(p, wir, getEngineSessionHandle());
     }
@@ -2898,4 +2903,4 @@ public class ResourceManager extends InterfaceBWebsideController {
 
     //***************************************************************************//
 
-}                                                                                  
+}

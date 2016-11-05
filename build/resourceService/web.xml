@@ -194,7 +194,7 @@
         <description>
             An authorized user may choose to 'pile' a certain task, which means they
             will receive all instances of that task, across all instances of the
-            process that contains the task.            
+            process that contains the task.
             When this param is set to true, piling of tasks for a user will cease when
             the affected user logs out.
             When this param is set to false (the default), piling of tasks for a user
@@ -304,7 +304,7 @@
           The URL of the worklet exception service.
        </description>
     </context-param>
--->    
+-->
 
     <!-- This param, when available, enables scheduling announcements to a
          scheduling service listening on Interface S. -->
@@ -610,5 +610,53 @@
       <is-xml>true</is-xml>
     </jsp-property-group>
   </jsp-config>
-    
+
+    <!--
+
+         THE FOLLOWING DESCRIBES STATELESS WEB API SETTINGS
+    -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>org.yawlfoundation.yawl.resourcing.config.ApplicationConfig</param-value>
+    </context-param>
+    <filter>
+      <filter-name>corsFilter</filter-name>
+      <filter-class>org.yawlfoundation.yawl.resourcing.config.ResourceServiceCorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+      <filter-name>corsFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	<filter>
+	  <filter-name>springSecurityFilterChain</filter-name>
+	  <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+	  <filter-name>springSecurityFilterChain</filter-name>
+	  <url-pattern>/*</url-pattern>
+	</filter-mapping>
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value></param-value>
+        </init-param>
+		<init-param>
+			<param-name>throwExceptionIfNoHandlerFound</param-name>
+			<param-value>true</param-value>
+		</init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
 </web-app>
